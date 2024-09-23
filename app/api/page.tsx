@@ -48,10 +48,13 @@ const styles = {
     padding: '20px',
     maxWidth: '1200px',
     margin: '0 auto',
+    backgroundColor: '#ffffff',
+    color: '#000000'
   },
   title: {
     fontSize: '2.5rem',
     marginBottom: '30px',
+    color: '#000000'
   },
   grid: {
     display: 'grid',
@@ -66,6 +69,7 @@ const styles = {
   },
   details: {
     padding: '10px',
+    color: '#000000'
   },
   subtitle: {
     fontSize: '1.75rem',

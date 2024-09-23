@@ -21,6 +21,7 @@
   .details {
     text-align: center;
     margin-bottom: 20px;
+    color: #000000;
   }
   
   .contactForm {
@@ -30,6 +31,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
     margin-bottom: 20px;
+    color: #000000;
   }
   
   .formGroup {
