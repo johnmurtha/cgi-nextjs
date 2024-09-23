@@ -51,7 +51,6 @@ const styles = {
   },
   title: {
     fontSize: '2.5rem',
-    textAlign: 'center',
     marginBottom: '30px',
   },
   grid: {
