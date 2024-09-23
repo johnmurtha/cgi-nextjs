@@ -2,7 +2,6 @@
 
 import Layout from '../components/Layout';
 import { useState, useEffect } from 'react';
-import styles from './Api.module.css'; // Import the CSS module
 
 interface NasaData {
   title: string;
@@ -25,15 +24,15 @@ export default function ApiPage() {
 
   return (
     <Layout>
-      <div className={styles.container}>
-        <h1>NASA Picture of the Day</h1>
+      <div style={styles.container}>
+        <h1 style={styles.title}>NASA Picture of the Day</h1>
         {data ? (
-          <div className={styles.grid}>
-            <img src={data.url} alt={data.title} className={styles.image} />
-            <div className={styles.details}>
-              <h2>{data.title}</h2>
-              <p>{data.explanation}</p>
-              <p><strong>Date:</strong> {data.date}</p>
+          <div style={styles.grid}>
+            <img src={data.url} alt={data.title} style={styles.image} />
+            <div style={styles.details}>
+              <h2 style={styles.subtitle}>{data.title}</h2>
+              <p style={styles.paragraph}>{data.explanation}</p>
+              <p style={styles.date}><strong>Date:</strong> {data.date}</p>
             </div>
           </div>
         ) : (
@@ -43,3 +42,43 @@ export default function ApiPage() {
     </Layout>
   );
 }
+
+const styles = {
+  container: {
+    padding: '20px',
+    maxWidth: '1200px',
+    margin: '0 auto',
+  },
+  title: {
+    fontSize: '2.5rem',
+    textAlign: 'center',
+    marginBottom: '30px',
+  },
+  grid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '20px',
+    alignItems: 'center',
+  },
+  image: {
+    width: '100%',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  },
+  details: {
+    padding: '10px',
+  },
+  subtitle: {
+    fontSize: '1.75rem',
+    marginBottom: '10px',
+  },
+  paragraph: {
+    fontSize: '1rem',
+    lineHeight: '1.6',
+    marginBottom: '15px',
+  },
+  date: {
+    fontSize: '1rem',
+    color: 'grey',
+  },
+};
