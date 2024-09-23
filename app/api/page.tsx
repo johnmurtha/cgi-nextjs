@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 
 interface NasaData {
   title: string;
@@ -8,21 +8,20 @@ interface NasaData {
   date: string;
 }
 
-interface ApiPageProps {
-  data: NasaData;
+async function fetchNasaData(): Promise<NasaData> {
+  const res = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+  return await res.json();
 }
 
-export default async function ApiPage() {
-  const res = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
-  const data: NasaData = await res.json();
-
-  return (
-    <Layout>
-      <Suspense fallback={<h1>Loading...</h1>}>
+const NasaData = React.lazy(async () => {
+  const data = await fetchNasaData();
+  return {
+    default: function NasaDataComponent() {
+      return (
         <div style={styles.container}>
           <h1 style={styles.title}>NASA Picture of the Day</h1>
           <div style={styles.grid}>
-            <img src={data.url} alt={data.title} />
+            <img src={data.url} alt={data.title} style={styles.image} />
             <div style={styles.details}>
               <h2 style={styles.subtitle}>{data.title}</h2>
               <p style={styles.paragraph}>{data.explanation}</p>
@@ -30,12 +29,21 @@ export default async function ApiPage() {
             </div>
           </div>
         </div>
+      );
+    }
+  };
+});
+
+// Main API Page component with Suspense for loading state
+export default function ApiPage() {
+  return (
+    <Layout>
+      <Suspense fallback={<div style={styles.loading}>Loading NASA data...</div>}>
+        <NasaData />
       </Suspense>
     </Layout>
   );
 }
-
-
 
 const styles = {
   container: {
@@ -78,4 +86,9 @@ const styles = {
     fontSize: '1rem',
     color: 'grey',
   },
+  loading: {
+    fontSize: '2.5rem',
+    marginBottom: '30px',
+    color: '#888888'
+  }
 };
