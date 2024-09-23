@@ -19,17 +19,17 @@ export default async function ApiPage() {
   return (
     <Layout>
       <Suspense fallback={<h1>Loading...</h1>}>
-      <div style={styles.container}>
-        <h1 style={styles.title}>NASA Picture of the Day</h1>
-        <div style={styles.grid}>
-          <img src={data.url} alt={data.title} />
-          <div style={styles.details}>
-            <h2 style={styles.subtitle}>{data.title}</h2>
-            <p style={styles.paragraph}>{data.explanation}</p>
-            <p style={styles.date}><strong>Date:</strong> {data.date}</p>
+        <div style={styles.container}>
+          <h1 style={styles.title}>NASA Picture of the Day</h1>
+          <div style={styles.grid}>
+            <img src={data.url} alt={data.title} />
+            <div style={styles.details}>
+              <h2 style={styles.subtitle}>{data.title}</h2>
+              <p style={styles.paragraph}>{data.explanation}</p>
+              <p style={styles.date}><strong>Date:</strong> {data.date}</p>
+            </div>
           </div>
         </div>
-      </div>
       </Suspense>
     </Layout>
   );
