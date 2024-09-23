@@ -1,7 +1,4 @@
-"use client";
-
 import Layout from '../components/Layout';
-import { useState, useEffect } from 'react';
 
 interface NasaData {
   title: string;
@@ -10,34 +7,26 @@ interface NasaData {
   date: string;
 }
 
-export default function ApiPage() {
-  const [data, setData] = useState<NasaData | null>(null);
+interface ApiPageProps {
+  data: NasaData;
+}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
-      const data: NasaData = await res.json();
-      setData(data);
-    };
-    fetchData();
-  }, []);
+export default async function ApiPage() {
+  const res = await fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY');
+  const data: NasaData = await res.json();
 
   return (
     <Layout>
       <div style={styles.container}>
         <h1 style={styles.title}>NASA Picture of the Day</h1>
-        {data ? (
-          <div style={styles.grid}>
-            <img src={data.url} alt={data.title} style={styles.image} />
-            <div style={styles.details}>
-              <h2 style={styles.subtitle}>{data.title}</h2>
-              <p style={styles.paragraph}>{data.explanation}</p>
-              <p style={styles.date}><strong>Date:</strong> {data.date}</p>
-            </div>
+        <div style={styles.grid}>
+          <img src={data.url} alt={data.title} />
+          <div style={styles.details}>
+            <h2 style={styles.subtitle}>{data.title}</h2>
+            <p style={styles.paragraph}>{data.explanation}</p>
+            <p style={styles.date}><strong>Date:</strong> {data.date}</p>
           </div>
-        ) : (
-          <p>Loading...</p>
-        )}
+        </div>
       </div>
     </Layout>
   );
