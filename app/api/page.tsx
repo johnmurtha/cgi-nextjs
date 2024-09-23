@@ -89,6 +89,7 @@ const styles = {
   loading: {
     fontSize: '2.5rem',
     marginBottom: '30px',
+    alignItems: 'center',
     color: '#888888'
   }
 };

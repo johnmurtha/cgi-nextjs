@@ -3,48 +3,60 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import styles from '../about/About.module.css'; // Import the CSS module
 
-interface FormState {
+interface formData {
   name: string;
   email: string;
   message: string;
 }
 
 export default function AboutForm() {
-  const [formState, setFormState] = useState<FormState>({
+  const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
   });
 
-  const [isSent, setIsSent] = useState<boolean>(false);
+  const [status, setStatus] = useState<string | null>(null);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormState({
-      ...formState,
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate API request
-    setTimeout(() => {
-      setIsSent(true);
-      setFormState({
-        name: '',
-        email: '',
-        message: '',
+    
+    setStatus(null);
+
+    try {
+      const response = await fetch('/about/api/fakeSendMessage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-    }, 500); // Simulate a slight delay
+
+      const data = await response.json();
+
+      if (data.message === 'Sent') {
+        setStatus('sent');
+      }
+    } catch (error) {
+      console.error('Error sending message', error);
+      setStatus('error');
+    }
   };
 
   const handleReset = () => {
-    setFormState({
+    setFormData({
       name: '',
       email: '',
       message: '',
     });
-    setIsSent(false); // Reset the sent message
+    setStatus(null);
   };
 
   return (
@@ -57,7 +69,7 @@ export default function AboutForm() {
                 type="text"
                 id="name"
                 name="name"
-                value={formState.name}
+                value={formData.name}
                 onChange={handleChange}
                 required
               />
@@ -68,7 +80,7 @@ export default function AboutForm() {
                 type="email"
                 id="email"
                 name="email"
-                value={formState.email}
+                value={formData.email}
                 onChange={handleChange}
                 required
               />
@@ -78,7 +90,7 @@ export default function AboutForm() {
               <textarea
                 id="message"
                 name="message"
-                value={formState.message}
+                value={formData.message}
                 onChange={handleChange}
                 required
               />
@@ -88,10 +100,8 @@ export default function AboutForm() {
               <button type="button" onClick={handleReset}>Reset</button>
             </div>
           </form>
-
-        {isSent && (
-          <p className={styles.sentMessage}>Sent!</p>
-        )}
+          {status === 'sent' && <p className={styles.sentMessage}>Sent</p>}
+          {status === 'error' && <p className={styles.badMessage}>Failed to send the message. Try again!</p>}
       </div>
   );
 }

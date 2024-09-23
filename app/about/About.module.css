@@ -81,4 +81,12 @@
     font-size: 16px;
     text-align: center;
   }
+
+  .badMessage {
+    margin-top: 20px;
+    color: #990000;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+  }
   
