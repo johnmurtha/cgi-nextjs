@@ -1,4 +1,5 @@
 import Layout from '../components/Layout';
+import { Suspense } from 'react';
 
 interface NasaData {
   title: string;
@@ -17,6 +18,7 @@ export default async function ApiPage() {
 
   return (
     <Layout>
+      <Suspense fallback={<h1>Loading...</h1>}>
       <div style={styles.container}>
         <h1 style={styles.title}>NASA Picture of the Day</h1>
         <div style={styles.grid}>
@@ -28,9 +30,12 @@ export default async function ApiPage() {
           </div>
         </div>
       </div>
+      </Suspense>
     </Layout>
   );
 }
+
+
 
 const styles = {
   container: {
